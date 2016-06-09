@@ -1,3 +1,3 @@
 package models
 
-case class ValorSensor(valorId: ValorId, sensorId: SensorId, valor: Double)
+case class ValorSensor(id: Option[ValorSensorId], sensorId: SensorId, valor: Double)

@@ -1,14 +1,15 @@
 package models.definitions
 
-import models.{EnqueteId, ValorSensor}
+import models.{SensorId, ValorSensor, ValorSensorId}
 import slick.driver.PostgresDriver.api._
 
 class ValorSensorTable(tag: Tag) extends Table[ValorSensor](tag, "valor_sensor"){
 
-  def valorId = column[Long]("valor_id", O.PrimaryKey)
-  def sensorId = column[Long]("sensor_id", O.PrimaryKey)
+  def id = column[ValorSensorId]("id", O.PrimaryKey, O.AutoInc)
+  def sensorId = column[SensorId]("sensor_id")
+  def valor = column[Double]("valor")
 
-  def * = (valorId, sensorId) <> ((ValorSensor.apply _).tupled, ValorSensor.unapply)
+  def * = (id.?, sensorId, valor) <> ((ValorSensor.apply _).tupled, ValorSensor.unapply)
 
 }
 
