@@ -13,21 +13,20 @@ import scala.concurrent.ExecutionContext.Implicits.global
 trait DatabaseValues extends DatabaseConfig {
 
 
-  def popularBanco() = {
-
-    val insertAllAction : DBIOAction[Option[Int], NoStream, Effect.Write] =
-      SensorDao.sensorTable ++= Seq(
-        Sensor(null,nome = "Sensor 1"),
-        Sensor(null,nome = "Sensor 2"))
-
-
-    db.run(insertAllAction.transactionally) foreach(f =>{
-      System.out.println("Valor inserido")
+  def inicializarDadosBanco() = {
+    db.run(SensorDao.sensorTable.length.result).onSuccess({
+      case x:Int => popularDadosSensor(x)
     })
-
-
   }
 
-
+  def popularDadosSensor(size:Int) {
+    if (size <= 0) {
+      val insertAllAction: DBIOAction[Option[Int], NoStream, Effect.Write] =
+        SensorDao.sensorTable ++= Seq(
+          Sensor(null, nome = "Sensor 1"),
+          Sensor(null, nome = "Sensor 2"))
+      db.run(insertAllAction.transactionally)
+    }
+  }
 
 }

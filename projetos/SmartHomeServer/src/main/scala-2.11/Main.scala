@@ -14,8 +14,7 @@ object Main extends App with Config with MigrationConfig with Routes with Databa
   protected implicit val materializer: ActorMaterializer = ActorMaterializer()
 
   migrate()
-  popularBanco()
-
+  inicializarDadosBanco()
 
   //Http().bindAndHandle(handler = logRequestResult("log")(routes), interface = httpInterface, port = httpPort)
 
