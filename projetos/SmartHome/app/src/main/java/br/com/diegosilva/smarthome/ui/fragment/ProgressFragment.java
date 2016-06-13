@@ -1,4 +1,4 @@
-package br.com.diegosilva.smarthome.ui;
+package br.com.diegosilva.smarthome.ui.fragment;
 
 import android.content.Context;
 import android.net.Uri;

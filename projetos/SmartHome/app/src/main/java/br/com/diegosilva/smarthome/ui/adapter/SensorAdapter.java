@@ -1,4 +1,4 @@
-package br.com.diegosilva.smarthome.ui;
+package br.com.diegosilva.smarthome.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,18 +7,25 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import br.com.diegosilva.smarthome.R;
-import br.com.diegosilva.smarthome.ui.dummy.DummyContent.DummyItem;
+import br.com.diegosilva.smarthome.model.Sensor;
+import br.com.diegosilva.smarthome.ui.fragment.SensorFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class SensorRecyclerViewAdapter extends RecyclerView.Adapter<SensorRecyclerViewAdapter.ViewHolder> {
+public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<Sensor> valores;
     private final SensorFragment.OnListFragmentInteractionListener mListener;
 
-    public SensorRecyclerViewAdapter(List<DummyItem> items, SensorFragment.OnListFragmentInteractionListener listener) {
-        mValues = items;
+    public SensorAdapter(List<Sensor> items, SensorFragment.OnListFragmentInteractionListener listener) {
+        valores = items;
+        mListener = listener;
+    }
+
+    public SensorAdapter(SensorFragment.OnListFragmentInteractionListener listener) {
+        valores = new ArrayList<>();
         mListener = listener;
     }
 
@@ -31,32 +38,32 @@ public class SensorRecyclerViewAdapter extends RecyclerView.Adapter<SensorRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mItem = valores.get(position);
+        holder.mIdView.setText(valores.get(position).getId().toString());
+        holder.mContentView.setText(valores.get(position).getNome());
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
-                }
+        holder.mView.setOnClickListener(v -> {
+            if (null != mListener) {
+                mListener.onListFragmentInteraction(holder.mItem);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return valores.size();
+    }
+
+    public void addValue(Sensor s){
+        this.valores.add(s);
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public DummyItem mItem;
+        public Sensor mItem;
 
         public ViewHolder(View view) {
             super(view);

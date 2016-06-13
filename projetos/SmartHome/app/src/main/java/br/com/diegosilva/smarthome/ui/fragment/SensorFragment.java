@@ -1,4 +1,4 @@
-package br.com.diegosilva.smarthome.ui;
+package br.com.diegosilva.smarthome.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,16 +11,24 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import br.com.diegosilva.smarthome.R;
-import br.com.diegosilva.smarthome.ui.dummy.DummyContent;
-import br.com.diegosilva.smarthome.ui.dummy.DummyContent.DummyItem;
-
-import java.util.List;
+import br.com.diegosilva.smarthome.api.SensorService;
+import br.com.diegosilva.smarthome.api.ServiceFactory;
+import br.com.diegosilva.smarthome.model.Sensor;
+import br.com.diegosilva.smarthome.ui.adapter.SensorAdapter;
+import br.com.diegosilva.smarthome.utils.URLs;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class SensorFragment extends Fragment {
 
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private RecyclerView recyclerView;
+    private SensorService sensorService =
+            ServiceFactory.createRetrofitService(SensorService.class, URLs.urlSensores);
+    private SensorAdapter sensorAdapter;
 
     public SensorFragment() {
     }
@@ -45,19 +53,40 @@ public class SensorFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_sensor_list, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new SensorRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            sensorAdapter = new SensorAdapter(mListener);
+            recyclerView.setAdapter(sensorAdapter);
         }
+
+        sensorService.getSensores().subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Sensor>() {
+                    @Override
+                    public final void onCompleted() {
+                        // do nothing
+                    }
+
+                    @Override
+                    public final void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public final void onNext(Sensor response) {
+                        sensorAdapter.addValue(response);
+                    }
+                });
+
         return view;
     }
 
@@ -91,6 +120,6 @@ public class SensorFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(Sensor item);
     }
 }

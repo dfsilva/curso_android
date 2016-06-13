@@ -10,5 +10,5 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="br.com.diegosilva.smarthome.ui.SensorFragment"
+    tools:context=".ui.fragment.SensorFragment"
     tools:listitem="@layout/fragment_sensor" />
