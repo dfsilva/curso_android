@@ -15,6 +15,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
+
+import br.com.diegosilva.smarthome.ui.fragment.SensorFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -25,6 +28,7 @@ public class MainActivity extends AppCompatActivity
     private DrawerLayout drawerLayout;
 
     private RecyclerView sensoresList;
+    private FrameLayout content;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,11 @@ public class MainActivity extends AppCompatActivity
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        content = (FrameLayout) findViewById(R.id.content);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content, new SensorFragment()).commit();
     }
 
     private void setupToolbar() {

@@ -1,7 +1,7 @@
 import akka.http.scaladsl.server.Directives._
-import api.{ApiErrorHandler, EnqueteApi}
+import api.{ApiErrorHandler, SensoresApi}
 
-trait Routes extends ApiErrorHandler with EnqueteApi{
+trait Routes extends ApiErrorHandler with SensoresApi{
   val routes =
     pathPrefix("v1") {
       enqueteApi

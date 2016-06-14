@@ -9,7 +9,7 @@ import rx.Observable;
  */
 public interface SensorService {
 
-    @GET("/sesores")
+    @GET("sensores")
     Observable<Sensor> getSensores();
 
 }

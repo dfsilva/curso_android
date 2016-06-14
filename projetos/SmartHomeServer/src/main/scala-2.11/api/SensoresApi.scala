@@ -10,7 +10,7 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.PathMatcher
 import spray.json._
 
-trait EnqueteApi extends JsonMappings{
+trait SensoresApi extends JsonMappings{
   val enqueteApi =
     (path("sensores") & get) {
        complete (SensorDao.findAll().map(_.toJson))
