@@ -54,7 +54,7 @@ public class SensorFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_sensor_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_sensor, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {

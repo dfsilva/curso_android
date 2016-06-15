@@ -32,7 +32,7 @@ public class SensorAdapter extends RecyclerView.Adapter<SensorAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_sensor, parent, false);
+                .inflate(R.layout.adapter_sensor, parent, false);
         return new ViewHolder(view);
     }
 

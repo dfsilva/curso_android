@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import br.com.diegosilva.smarthome.ui.fragment.CameraFragment;
 import br.com.diegosilva.smarthome.ui.fragment.SensorFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -67,13 +68,11 @@ public class MainActivity extends AppCompatActivity
 
     private void setUpNavDrawer() {
         if (toolbar != null) {
-           getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
             toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    drawerLayout.openDrawer(GravityCompat.START);
-                }
+            toolbar.setNavigationOnClickListener(v ->{
+                drawerLayout.openDrawer(GravityCompat.START);
             });
         }
     }
@@ -110,7 +109,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.content, new CameraFragment()).commit();
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
